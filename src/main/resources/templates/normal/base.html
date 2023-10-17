@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="layout(content)">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title th:text="${title}">Base html</title>
+
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+		crossorigin="anonymous"></script>
+
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+	<!--jQuery -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+
+	<!--font-awesome-->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+		integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+	<!--Sweet Alert-->
+	<link href="
+https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css
+" rel="stylesheet">
+
+	<!--Custom css-->
+	<link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+
+	<!-- This is navbar -->
+	<nav class="fixed-top navbar navbar-expand-lg navbar-dark bg-primary">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="#">Smart Contact Manager</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+				data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav ms-auto mb-2 mb-lg-0 text-uppercase">
+					<li class="nav-item active">
+						<a th:href="@{/}" class="nav-link active" aria-current="page" href="#">Home</a>
+					</li>
+					<li class="nav-item">
+						<a th:href="@{/about}" class="nav-link" href="#">About</a>
+					</li>
+
+					<li class="nav-item">
+						<a class="nav-link" href="#"><span th:text="${user.name}"></span></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/logout}" tabindex="-1" aria-disabled="true">Logout</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<!-- End Navbar -->
+
+	<!-- Sidebar Start -->
+
+	<div class="sidebar mt-2">
+		<span onclick="toggleSidebar()" class="crossBtn">&times;</span>
+		<a th:href="@{/user/index}" class="item"><i class="fas fa-home"></i>&nbsp;Home</a>
+		<a th:href="@{show-contacts/0}" class="item"><i class="fas fa-id-card-alt"></i>&nbsp;View Contacts</a>
+		<a th:href="@{/user/add-contact}" class="item"><i class="fas fa-pencil-alt"></i>&nbsp;Add Contact</a>
+		<a href="#" th:href="@{/user/profile}" class="item"><i class="fas fa-user-circle"></i>&nbsp;Your Profile</a>
+		<a href="#" class="item"><i class="fas fa-cogs"></i>&nbsp;Setting</a>
+		<a th:href="@{/logout}" class="item"><i class="fas fa-sign-out-alt"></i>&nbsp;Logout</a>
+		<div class="divider"></div>
+	</div>
+
+	<!-- Sidebar End -->
+
+	<!-- Content Start -->
+
+	<div class="content mt-5">
+
+		<i onclick="toggleSidebar()" class="fas fa-bars m-3" style="cursor: pointer;"></i>
+
+		<!--Message Box-->
+
+		<div th:if="${session.message}" class="container text-center">
+
+			<div th:classappend="${'alert-'+session.message.type}" class="alert" role="alert">
+
+				<span th:text="${session.message.content}"></span>
+
+			</div>
+			<!--<th:block th:text="${#session.removeAttribute('message')}"></th:block>-->
+			<!-- Remove the session attribute -->
+			<!--<th:block th:remove="${session.removeAttribute('message')}"></th:block>-->
+
+		</div>
+
+
+		<div th:replace="${content}"></div>
+	</div>
+
+
+	<!-- Content End -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+		integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+		integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+		crossorigin="anonymous"></script>
+	<!--Sweet Alert-->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js
+"></script>
+
+
+	<script>
+
+		function deleteContact(cId) {
+			Swal.fire({
+				title: 'Are you sure?',
+				text: "You won't to delete this contact ...",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Yes, delete it!'
+			}).then((result) => {
+				if (result.isConfirmed) {
+					window.location = "/user/delete/" + cId;
+				} else {
+					Swal.fire(
+
+						'Your Contact is safe !!',
+
+					)
+				}
+			})
+		}
+
+	</script>
+
+
+
+	<script th:src="@{/js/script.js}"></script>
+</body>
+
+</html>
