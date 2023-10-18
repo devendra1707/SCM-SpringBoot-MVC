@@ -142,11 +142,29 @@ body {
 
 
 
+/*Search SCC Start*/
+.search-container{
+	position: relative;
+}
+
+.search-result{
+	position: absolute;
+	background: white;
+	width: 100%;
+	padding: 10px;
+	border: 1px solid gray;
+	display: none;
+}
+
+
+/*Search CSS End*/
 
 
 
-
-
+.active{
+	background: #009688 !important;
+	color: white !important;
+}
 
 
 

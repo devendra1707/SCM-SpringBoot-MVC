@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,6 +44,9 @@ public class UserController {
 
 	@Autowired
 	private ContactRepository contactRepository;
+
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	// Method for adding common data to response
 	@ModelAttribute
@@ -82,57 +86,105 @@ public class UserController {
 	}
 
 	// processing
+//	@PostMapping("/process-contact")
+//	public String processContact(@ModelAttribute("contact") Contact contact, @Param("profileImage") MultipartFile file,
+//			Principal principal, HttpSession session) {
+//
+//		try {
+//			String name = principal.getName();
+//			User user = this.userRepository.getUserByUserName(name);
+//
+//			// processing and uploading file ...
+//
+//			if (file.isEmpty()) {
+////			 if the file is empty than try our message
+//			System.out.println("File is empty");
+//			contact.setImage("default.png");
+//			} else {
+////			 file the file to folder and update the name to contact
+//				contact.setImage(file.getOriginalFilename());
+//
+//				contact.setImage(file.getOriginalFilename());
+//				File saveFile = new ClassPathResource("static/img").getFile();
+//
+//				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + file.getOriginalFilename());
+//
+//				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+//			System.out.println("Image is Uploaded");
+//			}
+//
+//			user.getContacts().add(contact);
+//
+//			contact.setUser(user);
+//			this.userRepository.save(user);
+//
+//			System.out.println("Data :: " + contact);
+//			System.out.println("Added to database");
+//
+//			// message success
+//			session.setAttribute("message", new Message("Your contact is added !! Add more", "success"));
+//
+//		} catch (Exception e) {
+//			System.out.println("ERROR :: " + e.getMessage());
+//			e.printStackTrace();
+//
+//			// message error
+//			session.setAttribute("message", new Message("Something went wrong !! Try again", "danger"));
+//
+//		}
+//		return "normal/add_contact_form";
+//	}
+
+	
+	///////////////////////////////////////////////////////
+	
+	
 	@PostMapping("/process-contact")
-	public String processContact(@ModelAttribute("contact") Contact contact, @Param("profileImage") MultipartFile file,
+	public String processContact(@ModelAttribute Contact contact, @RequestParam("profileImage") MultipartFile file,
 			Principal principal, HttpSession session) {
-
-//	public String processContact(@ModelAttribute("contact") Contact contact,@Param("profileImage") MultipartFile file, Principal principal) {
-
 		try {
 			String name = principal.getName();
 			User user = this.userRepository.getUserByUserName(name);
 
-			// processing and uploading file ...
+			// Processing and uploading file
+			if (file.isEmpty()) {
+				// if file is empty then try your message
+				System.out.println("file is empty");
+				// if contact file img file is empty we pass this msg
+				contact.setImage("contact.jpg");
+			} else {
 
-//			if (file.isEmpty()) {
-//			 if the file is empty than try our message
-			System.out.println("File is empty");
-			contact.setImage("default.png");
-//			} else {
-			// file the file to folder and update the name to contact
-//				contact.setImage(file.getOriginalFilename());
+				// file the file to folder and update the conctact
+				contact.setImage(file.getOriginalFilename());
 
-//				contact.setImage(file.getOriginalFilename());
-//				File saveFile = new ClassPathResource("static/img").getFile();
+				File saveFile = new ClassPathResource("static/img").getFile();
+				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + file.getOriginalFilename());
+				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+				System.out.println("Image is Uploaded");
 
-//				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + file.getOriginalFilename());
-
-//				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-			System.out.println("Image is Uploaded");
-//			}
+			}
+			contact.setUser(user);
 
 			user.getContacts().add(contact);
-
-			contact.setUser(user);
 			this.userRepository.save(user);
 
-			System.out.println("Data :: " + contact);
-			System.out.println("Added to database");
-
-			// message success
-			session.setAttribute("message", new Message("Your contact is added !! Add more", "success"));
-
+			// print contact data from user
+			System.out.println("DATA " + contact);
+			System.out.println("Added To Database");
+			// message success ......... to database
+			session.setAttribute("message", new Message("Your Contact is added !! ADD more ....", "success"));
 		} catch (Exception e) {
-			System.out.println("ERROR :: " + e.getMessage());
+
+			System.out.println("ERROR" + e.getMessage());
 			e.printStackTrace();
-
-			// message error
-			session.setAttribute("message", new Message("Something went wrong !! Try again", "danger"));
-
+			/// error message to send
+			session.setAttribute("message", new Message("Something Went wrong !!", "ISSUE"));
 		}
 		return "normal/add_contact_form";
 	}
-
+	
+	
+	///////////////////////////////////////////////////////////////////////
 // Show Contacts handler
 	// per page = 5(n)
 	// current page = 0 [page]
@@ -263,4 +315,39 @@ public class UserController {
 		model.addAttribute("title", "Profile PAge");
 		return "normal/profile";
 	}
+
+	// Open Setting Handler
+	@GetMapping("/settings")
+	public String openSetting() {
+
+		return "normal/settings";
+	}
+
+	// Change Password
+	@PostMapping("/change-password")
+	public String chagePassword(@RequestParam("oldPassword") String oldPassword,
+			@RequestParam("newPassword") String newPassword, Principal principal, HttpSession session) {
+
+		System.out.println("Old Password :: " + oldPassword + "\nNew Password :: " + newPassword);
+		String userName = principal.getName();
+		User currentUser = this.userRepository.getUserByUserName(userName);
+		System.out.println(currentUser.getPassword());
+
+		if (this.bCryptPasswordEncoder.matches(oldPassword, currentUser.getPassword())) {
+			// change the password
+			currentUser.setPassword(bCryptPasswordEncoder.encode(newPassword));
+
+			this.userRepository.save(currentUser);
+
+			session.setAttribute("message", new Message("Your password is successfully changed...", "success"));
+
+		} else {
+//			error....
+			session.setAttribute("message", new Message("Please Enter Your Correct Password...", "danger"));
+			return "redirect:/user/settings";
+		}
+
+		return "redirect:/user/index";
+	}
+
 }

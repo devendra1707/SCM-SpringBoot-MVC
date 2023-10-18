@@ -14,8 +14,8 @@
 				<div class="container-fluid mt-1">
 					<div class="row">
 						<div class="col-md-8 offset-md-2">
-							<form th:action="@{/user/process-contact}" th:object="${contact}" enctype="multipart/form-data" method="post"
-								class="my-2">
+							<form th:action="@{/user/process-contact}" th:object="${contact}"
+								enctype="multipart/form-data" method="post" class="my-2">
 
 								<!--First Name Field-->
 								<div class="input-group">
@@ -48,8 +48,8 @@
 											<i class="fa fa-phone"></i>
 										</div>
 									</div>
-									<input type="number" min="10" id="phone" name="phone" placeholder="Enter Phone Number here"
-										class="form-control" required />
+									<input type="number" min="10" id="phone" name="phone"
+										placeholder="Enter Phone Number here" class="form-control" required />
 
 								</div>
 
@@ -81,16 +81,16 @@
 									<textarea class="form-control" name="description" rows="5px"
 										placeholder="Enter contact description" id="tiny"></textarea>
 								</div>
-								
+
 								<!--Contact image-->
 								<div class="custom-file mt-2">
-									 <input type="file" name="profileImage" />
+									<input type="file" name="profileImage" />
 								</div>
-								
+
 								<div class="container text-center pt-2">
 									<button class="btn btn-outline-primary">Save Contact</button>
 								</div>
-								
+
 							</form>
 						</div>
 					</div>
@@ -100,10 +100,17 @@
 		</div>
 		<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 		<script>
-  tinymce.init({
-    selector: 'textarea#tiny'
-  });
-</script>
+			tinymce.init({
+				selector: 'textarea#tiny'
+			});
+		</script>
+		<script>
+			$(document).ready(() => {
+				$(".item").removeClass("active");
+				$("#add-link").addClass("active");
+			})
+
+		</script>
 	</section>
 </body>
 

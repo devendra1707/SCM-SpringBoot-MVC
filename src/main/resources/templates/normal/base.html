@@ -6,6 +6,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title th:text="${title}">Base html</title>
 
+	<!--jQuery -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
@@ -69,12 +71,16 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css
 
 	<div class="sidebar mt-2">
 		<span onclick="toggleSidebar()" class="crossBtn">&times;</span>
-		<a th:href="@{/user/index}" class="item"><i class="fas fa-home"></i>&nbsp;Home</a>
-		<a th:href="@{show-contacts/0}" class="item"><i class="fas fa-id-card-alt"></i>&nbsp;View Contacts</a>
-		<a th:href="@{/user/add-contact}" class="item"><i class="fas fa-pencil-alt"></i>&nbsp;Add Contact</a>
-		<a href="#" th:href="@{/user/profile}" class="item"><i class="fas fa-user-circle"></i>&nbsp;Your Profile</a>
-		<a href="#" class="item"><i class="fas fa-cogs"></i>&nbsp;Setting</a>
-		<a th:href="@{/logout}" class="item"><i class="fas fa-sign-out-alt"></i>&nbsp;Logout</a>
+		<a id="home-link" th:href="@{/user/index}" class="item"><i class="fas fa-home"></i>&nbsp;Home</a>
+		<a id="contacts-link" th:href="@{show-contacts/0}" class="item"><i class="fas fa-id-card-alt"></i>&nbsp;View
+			Contacts</a>
+		<a id="add-link" th:href="@{/user/add-contact}" class="item"><i class="fas fa-pencil-alt"></i>&nbsp;Add
+			Contact</a>
+		<a id="profile-link" href="#" th:href="@{/user/profile}" class="item"><i
+				class="fas fa-user-circle"></i>&nbsp;Your Profile</a>
+		<a id="settings-link" href="#" th:href="@{/user/settings}" class="item"><i
+				class="fas fa-cogs"></i>&nbsp;Setting</a>
+		<a id="logout-link" th:href="@{/logout}" class="item"><i class="fas fa-sign-out-alt"></i>&nbsp;Logout</a>
 		<div class="divider"></div>
 	</div>
 
@@ -108,30 +114,14 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css
 
 	<!-- Content End -->
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-		crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
 		integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
 		crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
 		integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
 		crossorigin="anonymous"></script>
 	<!--Sweet Alert-->
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js

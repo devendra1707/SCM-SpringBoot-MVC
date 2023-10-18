@@ -18,10 +18,18 @@
 					Start Adding your contact on cloud..
 				</h1>
 				<div class="d-grid gap-2">
-					<a th:href="@{/user/add-contact}" class="btn btn-primary text-uppercase mt-3" type="button">Add New Contact</a>
-					</div>
+					<a th:href="@{/user/add-contact}" class="btn btn-primary text-uppercase mt-3" type="button">Add New
+						Contact</a>
+				</div>
 			</div>
 		</div>
+		<script>
+			$(document).ready(() => {
+				$(".item").removeClass("active");
+				$("#home-link").addClass("active");
+			})
+
+		</script>
 	</section>
 </body>
 
